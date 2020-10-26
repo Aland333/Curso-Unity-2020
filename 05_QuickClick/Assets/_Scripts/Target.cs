@@ -58,9 +58,5 @@ public class Target : MonoBehaviour
         return new Vector3(Random.Range(-rangeX,rangeX), rangeY);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
