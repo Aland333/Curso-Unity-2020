@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour
 {
@@ -58,5 +60,17 @@ public class Target : MonoBehaviour
         return new Vector3(Random.Range(-rangeX,rangeX), rangeY);
     }
 
+    private void OnMouseDown() //Hemos cread una función que tiene en cuenta el evento de hacer click
+    {
+        Destroy(gameObject); //Cuando hacemos click destruye el gameobject
+    }
+
+    private void OnTriggerEnter(Collider other) //Cauando entre en un trigger
+    {
+        if (other.CompareTag("KillZone")) //en este caso en el gameobject que tiene el tag KillZone
+        {
+            Destroy(gameObject); //destruimos el gameobject
+        }
     
+    }
 }
