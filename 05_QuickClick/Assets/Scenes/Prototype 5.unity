@@ -976,6 +976,7 @@ MonoBehaviour:
   - {fileID: 7280744737380939641, guid: 2f37e07514d43a04198f4af9780d0540, type: 3}
   - {fileID: 5247729103205729189, guid: 8b1dd52db2b4de64587d2d1ee6b45ea2, type: 3}
   spawnRate: 1
+  scoreText: {fileID: 1093035351}
 --- !u!4 &1723982084
 Transform:
   m_ObjectHideFlags: 0

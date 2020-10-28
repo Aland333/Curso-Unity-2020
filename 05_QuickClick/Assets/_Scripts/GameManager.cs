@@ -12,7 +12,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnRate = 1.0f;
 
     [SerializeField] private TextMeshProUGUI scoreText; //Creamos una variable de tipo TextMeshProUGUI que será la encargada de acceder a el gameobject de tipo Text
-    private int score; //creamos una variable para la puntuación
+
+    private int _score; //Creamos una variable encargada de tener el valor de la puntuación, haqcemos esto porque vamos a usar un set y get con la variable score
+
+    private int score //Score será en encargado de comprobar la puntuación que tenemos
+    {    
+        
+        set //set se encarga de poner un valor
+        {
+            _score = Mathf.Clamp(value, 0, 99999);  //el valor de _score ha de estar entre 0 y 99999, por lo tanto si detecta que es un número negativo se pondra a el 0 y si es uno
+            // mayor a 99999 se podnrá en 99999
+        }
+
+        get
+        {
+            return _score; //devolvemos el valor de _score
+        }
+        
+    }
     
     // Start is called before the first frame update
     void Start()

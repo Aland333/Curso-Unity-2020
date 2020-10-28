@@ -152,6 +152,7 @@ MonoBehaviour:
   minTorque: -10
   rangeX: 4
   rangeY: -6
+  pointValue: -20
 --- !u!96 &808156564813343138
 TrailRenderer:
   serializedVersion: 2

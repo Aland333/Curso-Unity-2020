@@ -131,3 +131,4 @@ MonoBehaviour:
   minTorque: -10
   rangeX: 4
   rangeY: -6
+  pointValue: 10
