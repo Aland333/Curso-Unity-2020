@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: e842dfa9765bc564584a8f35856c9071
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Chinatown Champs
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 72f5010797ac0e04f8dd69243f5b4c84, type: 3}
+  - {fileID: 12800000, guid: 22ef86fec999d8b42bf18fab09b29eea, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
