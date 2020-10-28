@@ -16,7 +16,8 @@ public class Target : MonoBehaviour
                                     minTorque = -10,
                                     rangeX = 4,
                                     rangeY = -6;
-    
+
+    private GameManager gameManager; //Creamos una variable de tipo GameManager
     
     void Start()
     {
@@ -29,6 +30,8 @@ public class Target : MonoBehaviour
         //ejes x,y,z viene dado por el método RandomTorque), y el torque se hace de tipo Impulso
 
         transform.position = RandomSpawnPosition(); //la posición de inicio viene dada por el método RandomSpawnPosition()
+
+        gameManager = FindObjectOfType<GameManager>(); // Busca un GameObject que tenga el script GameManager y lo guarda en la variable gameManager
     }
     
     /// <summary>
@@ -63,6 +66,7 @@ public class Target : MonoBehaviour
     private void OnMouseDown() //Hemos cread una función que tiene en cuenta el evento de hacer click
     {
         Destroy(gameObject); //Cuando hacemos click destruye el gameobject
+        gameManager.UpdateScore(5); //se llama a la función UpdateScore y se le pasa un valor de 5
     }
 
     private void OnTriggerEnter(Collider other) //Cauando entre en un trigger
