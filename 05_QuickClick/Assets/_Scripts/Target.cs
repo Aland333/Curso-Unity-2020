@@ -68,13 +68,17 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown() //Hemos cread una función que tiene en cuenta el evento de hacer click
     {
-        Destroy(gameObject); //Cuando hacemos click destruye el gameobject
-        Instantiate(explosionParticle, transform.position, transform.rotation); //instanciamos el sistema de partículas almacenado en explosionParticle, en la posición de y rotación de este objeto
-        gameManager.UpdateScore(pointValue); //se llama a la función UpdateScore y se le pasa un valor almacenado en pointValue
-        if (gameObject.CompareTag("Bad"))
+        if(gameManager.gameState == GameManager.GameState.inGame)
         {
-            gameManager.GameOver();
+            Destroy(gameObject); //Cuando hacemos click destruye el gameobject
+            Instantiate(explosionParticle, transform.position, transform.rotation); //instanciamos el sistema de partículas almacenado en explosionParticle, en la posición de y rotación de este objeto
+            gameManager.UpdateScore(pointValue); //se llama a la función UpdateScore y se le pasa un valor almacenado en pointValue
+            if (gameObject.CompareTag("Bad"))
+            {
+                gameManager.GameOver();
+            }
         }
+       
         
     }
 

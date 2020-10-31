@@ -7,6 +7,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
+    public enum GameState //Creamos un enemurador, esto es como una serie de estados
+    {
+        loading,
+        inGame,
+        gameOver
+        
+    }
+
+    public GameState gameState; //creamos un objeto de el enumerador GameState, este solo podrá tener 3 valores, loading, inGame o gameOver
+
     [SerializeField] private List<GameObject> targetPrefabs; //Utilizamos una lista de GameObject, la diferencia entre lista y array es que la lista es dinámica, puede aumentar su 
     //tamaño según se añadan nuevos valores o disminuir su propio tamaño, reorganizarlo, etc.
     [SerializeField] private float spawnRate = 1.0f;
@@ -36,6 +46,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameState = GameState.inGame; //Ponemos el estado de el juego en inGame
         StartCoroutine(spawnTarget()); //Empieza la coorutina
         score = 0; //ponemos la puntación a 0
         UpdateScore(score);
@@ -44,7 +55,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator spawnTarget() //Como lo que queremos es spawnear los gameObject de forma constante usamos una coorutina
     {
-        while (true) //un bucle infinito
+        while (gameState == GameState.inGame) //Mientras el juego esté en estado inGame
         {
 
             yield return new WaitForSeconds(spawnRate); //se espera el tiempo que le pasamos por spawnRate
@@ -66,6 +77,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() //este método se encarga de activar el texto de el game over
     {
+        gameState = GameState.gameOver;
         gameOverText.gameObject.SetActive(true);
         
     }
