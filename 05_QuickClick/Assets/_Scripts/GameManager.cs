@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
         }
         
     }
+
+    [SerializeField] private TextMeshProUGUI gameOverText; //Creamos una variable de tipo TextMeshProUGUI para almacenar el texto de el game over, dicho texto lo asignamos mediante Unity
     
     // Start is called before the first frame update
     void Start()
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(spawnTarget()); //Empieza la coorutina
         score = 0; //ponemos la puntación a 0
         UpdateScore(score);
+        gameOverText.gameObject.SetActive(false);  //como al empezar el juego no queremos que aparezca el texto de gameOver hacemos que esté false
     }
 
     IEnumerator spawnTarget() //Como lo que queremos es spawnear los gameObject de forma constante usamos una coorutina
@@ -58,5 +61,12 @@ public class GameManager : MonoBehaviour
     {
         score = score + scoreToUp;
         scoreText.text = "Score: \n " + score;
+    }
+
+
+    public void GameOver() //este método se encarga de activar el texto de el game over
+    {
+        gameOverText.gameObject.SetActive(true);
+        
     }
 }

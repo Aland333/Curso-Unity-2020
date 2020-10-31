@@ -20,6 +20,7 @@ public class Target : MonoBehaviour
     private GameManager gameManager; //Creamos una variable de tipo GameManager
     [SerializeField]private int pointValue; //Creamos una variable de tipo int que se encarga de indicar el valor de puntos de cada objeto, para modificar dicho valor
     //vamos a el prefab de objeto en Unity, luego en el inspector accedemos a el script y modificamos la variable de la forma que querámos
+    [SerializeField] private ParticleSystem explosionParticle; //Craemos una variable de tipo ParticleSystem, es decir sistema de partícula, dicho sistema se lo arrastraremos desde Unity
     
     void Start()
     {
@@ -68,7 +69,13 @@ public class Target : MonoBehaviour
     private void OnMouseDown() //Hemos cread una función que tiene en cuenta el evento de hacer click
     {
         Destroy(gameObject); //Cuando hacemos click destruye el gameobject
+        Instantiate(explosionParticle, transform.position, transform.rotation); //instanciamos el sistema de partículas almacenado en explosionParticle, en la posición de y rotación de este objeto
         gameManager.UpdateScore(pointValue); //se llama a la función UpdateScore y se le pasa un valor almacenado en pointValue
+        if (gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other) //Cauando entre en un trigger
@@ -76,9 +83,9 @@ public class Target : MonoBehaviour
         if (other.CompareTag("KillZone")) //en este caso en el gameobject que tiene el tag KillZone
         {
             Destroy(gameObject); //destruimos el gameobject
-            if (pointValue > 0) //si da más de 0 puntos, es decir si no es una bomba
+            if (gameObject.CompareTag("Good")) //si el gameobject asignado a este script tiene la etiqueta "Good"
             {
-                gameManager.UpdateScore(-10);
+                gameManager.GameOver();
             }
             
         }
