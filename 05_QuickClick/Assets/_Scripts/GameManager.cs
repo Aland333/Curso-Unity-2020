@@ -49,12 +49,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText; //Creamos una variable de tipo TextMeshProUGUI para almacenar el texto de el game over, dicho texto lo asignamos mediante Unity
 
     [SerializeField] private GameObject titleScreen; //creamos una variable de tipo GameObject donde desde Unity nos encargamos de arrastrar el panel de la pantalla de título
+    
+  /// <summary>
+  /// Función que llama a el inicio de el juego
+  /// </summary>
+  /// <param name="difficulty">Número entero que indica el grado de dificultad</param>
 
-  
-
-    public void StartGame()
+    public void StartGame(float difficulty)
     {
         gameState = GameState.inGame; //Ponemos el estado de el juego en inGame
+        spawnRate /= difficulty; //una forma de controlar la dificultad es que esta afecte a la rapidez de el spawn de objetos, en este caso cuanto myor la dificultad más rápido saldran
         StartCoroutine(spawnTarget()); //Empieza la coorutina
         score = 0; //ponemos la puntación a 0
         UpdateScore(score);

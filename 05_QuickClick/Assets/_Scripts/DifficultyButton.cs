@@ -7,6 +7,8 @@ public class DifficultyButton : MonoBehaviour
 {
     private Button _button; //Creamos una variable de tipo botón
     private GameManager gameManager; //creamos una variable de tipo GameManager
+    [Range(1,3)]
+    [SerializeField] float difficulty; //asignamos la dificultad a número, en principio serán 1,2,3. La dificultad es asignada en casa botón en Unity
     
     
     // Start is called before the first frame update
@@ -21,7 +23,7 @@ public class DifficultyButton : MonoBehaviour
     void SetDifficulty()
     {
         Debug.Log("El botón" + gameObject.name + " ha sido pulsado.");
-        gameManager.StartGame(); //llamamos a el método .StartGame() que está en el gameManager
+        gameManager.StartGame(difficulty); //llamamos a el método .StartGame() que está en el gameManager
 
     }
     
