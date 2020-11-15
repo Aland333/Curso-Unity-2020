@@ -53,6 +53,7 @@
      <Compile Include="Assets\_Scripts\Target.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\Course Library\_Source_Files\Scripts\DestroyAfterDelay.cs" />
+     <Compile Include="Assets\_Scripts\DifficultyButton.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\Course Library\Fonts\Margarine\OFL.txt" />
@@ -100,6 +101,9 @@
  <Reference Include="Unity.Rider.Editor">
  <HintPath>D:/Proyectos Unity/Curso Unity 2020 español/05_QuickClick/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
  </Reference>
+ <Reference Include="Unity.2D.Sprite.Editor">
+ <HintPath>D:/Proyectos Unity/Curso Unity 2020 español/05_QuickClick/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.VisualStudio.Editor">
  <HintPath>D:/Proyectos Unity/Curso Unity 2020 español/05_QuickClick/Library/ScriptAssemblies/Unity.VisualStudio.Editor.dll</HintPath>
  </Reference>
@@ -111,9 +115,6 @@
  </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Proyectos Unity/Curso Unity 2020 español/05_QuickClick/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>D:/Proyectos Unity/Curso Unity 2020 español/05_QuickClick/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.1.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
