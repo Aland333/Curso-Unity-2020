@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro; //Importamos el paquete textMeshPro
 using UnityEngine;
 using UnityEngine.UI; //Para poder usar los botones
-using UnityEngine.SceneManagement; //Para acceder a el control de las escenas
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random; //Para acceder a el control de las escenas
 
 
 public class GameManager : MonoBehaviour
@@ -49,11 +51,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameOverText; //Creamos una variable de tipo TextMeshProUGUI para almacenar el texto de el game over, dicho texto lo asignamos mediante Unity
 
     [SerializeField] private GameObject titleScreen; //creamos una variable de tipo GameObject donde desde Unity nos encargamos de arrastrar el panel de la pantalla de título
-    
-  /// <summary>
-  /// Función que llama a el inicio de el juego
-  /// </summary>
-  /// <param name="difficulty">Número entero que indica el grado de dificultad</param>
+
+    /// <summary>
+    /// Función que llama a el inicio de el juego
+    /// </summary>
+    /// <param name="difficulty">Número entero que indica el grado de dificultad</param>
+    public void Start()
+    {
+        ShowMaxScore(); //Para mostrar la puntuación máxima
+    }
 
     public void StartGame(float difficulty)
     {
@@ -64,7 +70,8 @@ public class GameManager : MonoBehaviour
         UpdateScore(score);
         gameOverText.gameObject.SetActive(false);  //como al empezar el juego no queremos que aparezca el texto de gameOver hacemos que esté false
         restartButton.gameObject.SetActive(false); //Al empezar no queremos ver el botón, podemos ahorrarnos esto desactivando el botón desde Unity y ya está
-        titleScreen.gameObject.SetActive(false); 
+        titleScreen.gameObject.SetActive(false);
+        
     }
 
     IEnumerator spawnTarget() //Como lo que queremos es spawnear los gameObject de forma constante usamos una coorutina
@@ -87,14 +94,38 @@ public class GameManager : MonoBehaviour
         score = score + scoreToUp;
         scoreText.text = "Score: \n " + score;
     }
+    
+    /// <summary>
+    /// Se encarga de mostrar en la pantalla de título la puntuación máxima almacenada
+    /// </summary>
+    public void ShowMaxScore()
+    {
+        int maxScore = PlayerPrefs.GetInt("MAX_SCORE", 0); //PlayerPrefs, es un objeto de Unity que se encarga de guardar de forma locac algunos valores, simples como
+        // enteros, float o strings. En este caso ponemos definmos la variable "MAX_SCORE" con un valor por defecto de 0. Dicho valor es el la primera vez que se usa, una vez que se
+        //actualice nunca volverá a ser 0
+        scoreText.text = "Max Score = \n " + maxScore; //mostramos la puntuación máxima
+    }
 
 
     public void GameOver() //este método se encarga de activar el texto de el game over
     {
+        SetMaxScore(); //para cambiar la puntuacion máxima
         gameState = GameState.gameOver;
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true); //Hacemos que se vea el botón
         
+    }
+    
+    /// <summary>
+    /// Función encargada de poner la puntación máxima
+    /// </summary>
+    private void SetMaxScore()
+    {
+        int maxScore = PlayerPrefs.GetInt("MAX_SCORE", 0);
+        if (score > maxScore)
+        {
+            PlayerPrefs.SetInt("MAX_SCORE", score);
+        }
     }
 
      public void RestartGame() //creamos la función que ejecutará el botón cuando es pulsado, recordamos que como se va acceder desde fuera, ha de ser público
