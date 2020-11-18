@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Button restartButton; //Creamos una variable de tipo Button que almacenará un botón, hemos de añadirlo desde el editor
 
-
+    private int numberOfLives = 3;
+    
     private int score //Score será en encargado de comprobar la puntuación que tenemos
     {    
         
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject titleScreen; //creamos una variable de tipo GameObject donde desde Unity nos encargamos de arrastrar el panel de la pantalla de título
 
+    [SerializeField] private List<GameObject> lives; //Creamos una lista, gracias a la cual vamos a poder referenciar los 3 corazones de las vidas
+
     /// <summary>
     /// Función que llama a el inicio de el juego
     /// </summary>
@@ -65,6 +68,15 @@ public class GameManager : MonoBehaviour
     {
         gameState = GameState.inGame; //Ponemos el estado de el juego en inGame
         spawnRate /= difficulty; //una forma de controlar la dificultad es que esta afecte a la rapidez de el spawn de objetos, en este caso cuanto myor la dificultad más rápido saldran
+
+        numberOfLives -= (int)difficulty - 1; //Asignamos el número de vidas según la dificultad
+
+        for (int i = 0; i < numberOfLives; i++)   //de forma natural las vidas no se van a ver, y cuando se inicia el juego, se verán tantas vidas, como tenemos
+        {
+            lives[i].SetActive(true);
+        }
+        
+        
         StartCoroutine(spawnTarget()); //Empieza la coorutina
         score = 0; //ponemos la puntación a 0
         UpdateScore(score);
@@ -109,11 +121,32 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() //este método se encarga de activar el texto de el game over
     {
-        SetMaxScore(); //para cambiar la puntuacion máxima
-        gameState = GameState.gameOver;
-        gameOverText.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(true); //Hacemos que se vea el botón
+
+        numberOfLives--; //restamos una vida
+
+        if (numberOfLives >= 0)
+        {
+            Image hearthImage = lives[numberOfLives].GetComponent<Image>(); //creamos una varible de tipo imagen, en dicha variable guardamos de la lista lives, dentro de esta en la posición
+            // asignada a el valor numberOfLives y de esta cogemos su imagen
+
+            var tempColor = hearthImage.color; //creamos una variable de tipo var, que lo que esto significa que es una variable de cualquier tipo que cuando el programa llegue a este punto
+            // se transformará en la variable correspodiente, en este caso es una variable de tipo Color
+            tempColor.a = 0.3f; // .a de un color hace referencia a su opacidad, en este caso la ponemos en 0.3
+            hearthImage.color = tempColor; //a la imagen guardado en hearthImage le cambiamos el color para que sea igual a la de tempColor
         
+            //Si por algun casual intentásemos cambiarle el color directamente, sin pasar por una variable temporal, tenemos un error de compilación.
+        }
+
+
+
+        if (numberOfLives <= 0) //si no tenemos vidas, o son menores que 0, esto no haría falta en principio, pero lo ponemos por si hay algún tipo de búg al perder 2 vidas a la vez o quese yo
+        {
+            SetMaxScore(); //para cambiar la puntuacion máxima
+            gameState = GameState.gameOver;
+            gameOverText.gameObject.SetActive(true);
+            restartButton.gameObject.SetActive(true); //Hacemos que se vea el botón
+        }
+
     }
     
     /// <summary>
