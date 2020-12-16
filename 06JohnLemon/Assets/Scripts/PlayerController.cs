@@ -19,9 +19,11 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();//Accedemos a el animator
         _rigidbody = GetComponent<Rigidbody>();//Accedemos a el Rigidbody
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate() //Cambiamos Update por FixedUpdate. FixedUpdate es un estado que se ejecuta antes de el Update normal y está ligado con la tasa de refresco de la física, por lo tanto
+    //como dentro de este estamos trabajando con físicas (movimientos, rigidbody, etc) si usamos update estamos malgastando cálculos de frames que no se hacen, ya que el que nos mueve el personaje
+    // es el método OnAnimatorMove(). Por ello ponemos FixedUpdate() y así el movimiento se calcula de forma correcta y no abrá diferencias de valores de frame a frame. Por ejemplo, si usamos un update
+    //este es cada frame, suponiendo que nos va a 180 frames, el movimiento devido a la animacion es de la física que se ejecuta 50 frames, por tanto hay una discrepancia y perdemos valores y capacidad
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -30,8 +32,7 @@ public class PlayerController : MonoBehaviour
         // los 2 a la vez el módulo no es 1, y por tanta para hacer que siempre sea 1 hemos de normalizar.
 
         bool hasHorizontalInput =
-            !Mathf.Approximately(horizontal,
-                0f); // creamos una variable booleana que se encarga de recoger si hay movimiento, para ello usamos
+            !Mathf.Approximately(horizontal, 0f); // creamos una variable booleana que se encarga de recoger si hay movimiento, para ello usamos
         // Mathf.Approximately(horizontal, 0f) que lo que hace es devolver un true si es aproximadamente 0, y por ello lo negamos con ! 
         bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput; //el boolean isWalking encargado de gestionar la animacion de caminar será true si hay movimiento horizontal o vertical
