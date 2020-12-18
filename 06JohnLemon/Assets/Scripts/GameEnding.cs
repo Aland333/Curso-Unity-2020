@@ -14,6 +14,8 @@ public class GameEnding : MonoBehaviour
     [SerializeField] private CanvasGroup exitBackgroundImageCanvasGroup; //Para acceder a el CanvasGroup encargado de controlar la opaciodad de la imagen de fin de partida
     [SerializeField] private CanvasGroup caughtBackgroundImageCanvasGroup; //Para acceder a el CanvasGroup encargado de la imagen de fin de partida
     private float timer;
+    [SerializeField] private AudioSource exitAudio, caughtAudio; //Para guardar los audios de salida y de cuando te pillan
+    private bool hasAudioPlayed; //para ver si se ha reproducido un audio
 
     public void OnTriggerEnter(Collider other) //Cuando se detecte un collision de tipo trigger con otra cosa (Other)
     {
@@ -28,11 +30,13 @@ public class GameEnding : MonoBehaviour
     {
         if (isPlayerAtExit) //si ha llegado a la salida
         {
-           EndLevel(exitBackgroundImageCanvasGroup, false); //llamamos a la función EndLevel pasándole el parámetro exitBackgroundImageCanvasGroup, y un false para que no reinicie la partida
+           EndLevel(exitBackgroundImageCanvasGroup, false, exitAudio); //llamamos a la función EndLevel pasándole el parámetro exitBackgroundImageCanvasGroup, y un false
+            //para que no reinicie la partida, luego le pasamos el audio asignado a la salida de el nivel
         }
         else if (isPlayerCaught) //si han pillado a el jugador
         {
-            EndLevel(caughtBackgroundImageCanvasGroup, true); //llamamos a la función EndLevel pasándole el parámetro caughtBackgroundImageCanvasGroup, y un true para que reinicie la partida
+            EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio); //llamamos a la función EndLevel pasándole el parámetro caughtBackgroundImageCanvasGroup, y un true
+            //para que reinicie la partida, luego le pasamos el audio asignado a cuando pillan a el jugador
         }
     }
     /// <summary>
@@ -40,10 +44,19 @@ public class GameEnding : MonoBehaviour
     /// </summary>
     /// <param name="imageCanvasGroup"> Imagen de fin de partida correspondiente </param>
     /// <param name="doRestart"> Indica si hay que reiniciar la partida o no</param>
+    /// <param name="audioSource">Indica el audio que hay que reproducir</param>
     
-    void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart)
+    void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart, AudioSource audioSource)
     {
 
+
+        if (!hasAudioPlayed) //si todavia no se ha reproducide el audio, este if lo hacemos porque la función EndLevel() es llamada a cada frame, y para evitar que se reproduzca el audio cada
+        //frame usamos esta comprobación
+        {
+            audioSource.Play(); //reproduce el audio
+            hasAudioPlayed = true; //pon la variable que contra si se ha reproducido el audio a true
+        }
+        
         timer += Time.deltaTime; //Hacemos que el tiempo sea independiente de los frames para que sea un tiempo normal en segundos, ojo timer es float, su valor va ir cambiando con decimales
         // no va a pasar de 0 a 1,2,3, etc. Va a ir recorriendo los decimales entre estos.
         imageCanvasGroup.alpha = timer / fadeDuration; //Usamos la variable .alpha que es la encargada  de controlar la opacidad o transparencia, siendo 0 totalmente

@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour
     private Animator _animator; //creamos una variable para acceder a el animator de el gameobject
     private Rigidbody _rigidbody;//creamos una variable para acceder a el Rigidbody de el gameobject
     private Quaternion rotation = Quaternion.identity; //creamos una variable para rotación de el personaje, dicha rotacion se obtiene mediante Quaterniones, usamos .identity para que sea el
-                                                       // valor unidad, luego le daremos el valor que buscamos
+    // valor unidad, luego le daremos el valor que buscamos
     [SerializeField]  private float turnSpeed = 20f;
+    private AudioSource _audioSource; //Para tener acceso a un AudioSource
     
     
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         _animator = GetComponent<Animator>();//Accedemos a el animator
         _rigidbody = GetComponent<Rigidbody>();//Accedemos a el Rigidbody
+        _audioSource = GetComponent<AudioSource>(); //Accedemos el AudioSource
     }
     
     void FixedUpdate() //Cambiamos Update por FixedUpdate. FixedUpdate es un estado que se ejecuta antes de el Update normal y está ligado con la tasa de refresco de la física, por lo tanto
@@ -40,6 +42,20 @@ public class PlayerController : MonoBehaviour
         _animator.SetBool("IsWalking", isWalking); //El boolean que hemos creado en el animator de nombre "IsWalking" será true o false según lo sea la variable isWalking que hemos creado
         //en este script
 
+        if (isWalking) //Si está andando
+        {
+            if (!_audioSource.isPlaying) //si el audio no está sonando, hemos de hacer esta comprobación porque estamos dentro de un Update() y de otra forma se llamaría muchas veces
+            //a el audio
+            {
+                _audioSource.Play(); //reproduce el audio
+            }
+            
+        }
+        else
+        {
+            _audioSource.Stop(); //si no está andando, paramos la reproducción de audio
+        }
+
         Vector3 desireForward = Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.deltaTime, 0f); //hasta ahora tenemos configurado en movimiento
         //simple siendo un vector el que activa la animación, pero lo que no tenemos es que por ejemplo cuando el personaje está mirando apara adelante y pulsamos la derecha, se activa la animación
         //de movimiento, pero lo hace de forma que esa animación sigue estándo hacia la direccion adelante de el personaje, para solucionarlo, creamos un Vector3 con el método .RotateToWard()
@@ -57,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         // S = S0 + velocidad * tiempo    -> sin embargo ahora la velocidad es la velocidad de la animación
         _rigidbody.MovePosition(_rigidbody.position +  movement * _animator.deltaPosition.magnitude); //_rigidbody.position es la posición inicial. movement es la dirección de el movimiento y
-        // _animator.deltaPosition.magnitude es la cantidad de movimiento debida a la 
+        // _animator.deltaPosition.magnitude es la cantidad de movimiento debida a la animación
         _rigidbody.MoveRotation(rotation); //Hacemos lo mismo pero con ratación, en este caso solo necesitamos el Quaternion
     }
 }
